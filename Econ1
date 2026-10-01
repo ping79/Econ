@@ -1,0 +1,64 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import adfuller
+
+# 1. 讀取 AREMOS 匯出的 CSV 檔案
+# 假設檔案欄位包含: 'Date' (日期), 'CPI_Growth' (CPI年增率), 'Wage_Growth' (薪資年增率), 'AI_Proxy' (AI技術代理指標)
+file_path = "aremos_data_cpi_wage.csv"
+df = pd.read_csv(file_path)
+
+# 2. 資料清洗 (Data Cleaning)
+# 轉換日期格式並設為索引
+df["Date"] = pd.to_datetime(df["Date"])
+df.set_index("Date", inplace=True)
+
+# 處理缺失值 (使用線性內插法填補時間序列空值)
+df = df.interpolate(method="linear")
+
+# 檢查基本統計量
+print("--- 基本敘述統計 ---")
+print(df.describe())
+
+# 3. 單根檢定 (Augmented Dickey-Fuller Test) 確保時間序列定態性
+print("\n--- ADF 檢定 (CPI 年增率) ---")
+adf_cpi = adfuller(df["CPI_Growth"].dropna())
+print(f"ADF Statistic: {adf_cpi[0]:.4f}")
+print(f"p-value: {adf_cpi[1]:.4f}")
+
+# 4. 基礎時間序列迴歸分析 (OLS Regression)
+# 探討薪資成長與 AI 代理變數如何影響 CPI 年增率
+X = df[["Wage_Growth", "AI_Proxy"]]
+X = sm.add_constant(X)  # 加入截距項
+y = df["CPI_Growth"]
+
+model = sm.OLS(y, X).fit()
+print("\n--- OLS 迴歸分析結果 ---")
+print(model.summary())
+
+# 5. 資料視覺化：雙Y軸圖
+fig, ax1 = plt.subplots(figsize=(10, 5))
+
+color = "tab:red"
+ax1.set_xlabel("Date")
+ax1.set_ylabel("CPI Annual Growth (%)", color=color)
+ax1.plot(df.index, df["CPI_Growth"], color=color, label="CPI Growth")
+ax1.tick_params(axis="y", labelcolor=color)
+
+ax2 = ax1.twinx()
+color = "tab:blue"
+ax2.set_ylabel("Real Wage Growth (%)", color=color)
+ax2.plot(
+    df.index,
+    df["Wage_Growth"],
+    color=color,
+    linestyle="--",
+    label="Wage Growth",
+)
+ax2.tick_params(axis="y", labelcolor=color)
+
+plt.title("Taiwan CPI Growth vs. Wage Growth Trend")
+fig.tight_layout()
+plt.show()
+
