@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 與經濟研究報告 | 淡江大學專題</title>
+    <!-- 引入 Google Fonts 與 FontAwesome 圖示 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #0f2c59;
+            --secondary-color: #007bc4;
+            --accent-color: #d80032;
+            --bg-light: #f8f9fa;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* 導覽列 */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary-color);
+        }
+
+        /* 主視覺 banner (Hero Section) */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a365d 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .hero-tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* 主要內容區 */
+        container {
+            display: block;
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* 專題研究卡片網格 */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-header {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-body h3 {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-body p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 0.75rem 1.2rem;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #005a92;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: var(--primary-color);
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+
+        footer strong {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列 -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>AI 與經濟研究報告</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">首頁</a></li>
+                <li><a href="inflation-wages.html">通膨與薪資</a></li>
+                <li><a href="#semiconductor">半導體出口</a></li>
+                <li><a href="#about">關於本專題</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 主視覺介紹區 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>AI 與經濟研究報告</h1>
+            <p>淡江大學專題研究：運用台灣 AREMOS 時間序列資料庫，解析 AI 浪潮下的總體經濟衝擊、物價波動與勞動市場變遷。</p>
+            <div class="hero-tags">
+                <span class="tag"># AREMOS 資料庫</span>
+                <span class="tag"># 實證經濟學</span>
+                <span class="tag"># 時間序列分析</span>
+                <span class="tag"># Python 資料分析</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主內容區：研究專題索引 -->
+    <container>
+        <h2 class="section-title">核心研究專題</h2>
+        
+        <div class="research-grid">
+            
+            <!-- 專題 1：通膨與薪資 (已建立連結) -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-coins card-icon"></i>
+                    <div>
+                        <span style="font-size: 0.8rem; color: var(--secondary-color); font-weight: bold;">專題一</span>
+                        <h4 style="margin: 0; color: var(--primary-color);">物價與勞動市場</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>通膨壓力、實質薪資與青年就業分析</h3>
+                    <p>探討 CPI 年增率衝擊下，對受僱員工實質薪資之傳導機制，並實證評估高物價與房價壓力對青年勞動參與率的非線性影響。</p>
+                </div>
+                <div class="card-footer">
+                    <!-- 點擊此按鈕將跳轉至通膨與薪資頁面 -->
+                    <a href="inflation-wages.html" class="btn">進入專題報告 <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- 專題 2：半導體出口與薪資外溢 -->
+            <div class="card" id="semiconductor">
+                <div class="card-header">
+                    <i class="fa-solid fa-microchip card-icon"></i>
+                    <div>
+                        <span style="font-size: 0.8rem; color: var(--secondary-color); font-weight: bold;">專題二</span>
+                        <h4 style="margin: 0; color: var(--primary-color);">產業與出口結構</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>半導體出口衝擊與產業薪資雙軌化</h3>
+                    <p>聚焦 AI 晶片出口熱潮，檢驗電子零組件出口成長對台灣製造業與服務業薪資差距之溢出效應（Spillover Effect）。</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn" style="background-color: #94a3b8; cursor: not-allowed;">報告準備中</a>
+                </div>
+            </div>
+
+            <!-- 專題 3：總體金融與貨幣供給 -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-building-columns card-icon"></i>
+                    <div>
+                        <span style="font-size: 0.8rem; color: var(--secondary-color); font-weight: bold;">專題三</span>
+                        <h4 style="margin: 0; color: var(--primary-color);">貨幣與金融市場</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>貨幣總計數 (M1B/M2) 與資產價格</h3>
+                    <p>運用 VAR 向量自迴歸模型，分析台灣貨幣黃金交叉現象對房價指數與股市波動的長短期動態影響。</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn" style="background-color: #94a3b8; cursor: not-allowed;">報告準備中</a>
+                </div>
+            </div>
+
+        </div>
+    </container>
+
+    <!-- 頁尾區塊 -->
+    <footer>
+        <p><strong>淡江大學 《AI 與經濟研究報告》專題小組</strong></p>
+        <p>資料來源：台灣 AREMOS 經濟統計資料庫 (net.aremos.org.tw)</p>
+    </footer>
+
+</body>
+</html>
